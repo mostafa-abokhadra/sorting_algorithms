@@ -17,7 +17,10 @@ void sort_any_where(listint_t *to_sort, listint_t *ptr2)
 		ptr2->prev->next = to_sort;
 		/*ptr2->next = to_sort->next;*/
 		if (to_sort->next != NULL)
+		{
 		to_sort->next->prev = ptr2;
+		ptr2->next = to_sort->next;
+		}
 		if (to_sort->next == NULL)
 		to_sort->prev->next = NULL;
 		to_sort->prev = ptr2->prev;
