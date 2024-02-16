@@ -1,67 +1,71 @@
 #include "sort.h"
 #include <stdio.h>
 
+void sort_front(listint_t **head __attribute__((unused)), listint_t *to_sort, listint_t *ptr2)
+{
+		to_sort->prev->next = to_sort->next;
+		if (to_sort->next != NULL)
+			to_sort->next->prev = to_sort->prev;
+		to_sort->next = ptr2;
+		ptr2->prev = to_sort;
+		to_sort->prev = NULL;
+		*(head) = to_sort;
+}
+void sort_any_where(listint_t *to_sort, listint_t *ptr2)
+{
+		ptr2->prev->next = to_sort;
+		ptr2->next = to_sort->next;
+		to_sort->next->prev = ptr2;
+		to_sort->prev = ptr2->prev;
+		to_sort->next = ptr2;
+		ptr2->prev = to_sort;
+}
 void insertion_sort_list(listint_t **list)
 {
-		int flag = 1, flag2 = 0;
-		listint_t *ptr, *to_sort;
+		listint_t *ptr, *ptr2, *to_sort;
+		bool sort_occur = false;
 
 		if (!(*list) || (*list)->next == NULL)
 			return;
-		ptr = to_sort = (*list)->next;
-
-		while (flag)
+		ptr = (*list);
+		while(ptr->next != NULL)
 		{
-			printf("in\n");
-			flag = 0;
-			flag2 = 0;
-			
-			while (to_sort != NULL && ptr->prev->n > to_sort->n)
+
+			if (ptr->next->n >= ptr->n)
 			{
-				printf("in2 ");
-				ptr = ptr->prev;
-				if (ptr->prev == NULL)
+				ptr = ptr->next;
+			}
+			else
+			{
+				ptr2 = to_sort = ptr->next;
+				sort_occur = true;
+				ptr = ptr->next->next;
+				while (ptr2->prev != NULL &&
+						ptr2->prev->n > to_sort->n)
 				{
-					to_sort->prev->next = to_sort->next;
-					to_sort->next->prev = to_sort->prev;
-					to_sort->next = ptr;
-					ptr->prev = to_sort;
-					to_sort->prev = NULL;
-					*(list) = to_sort;
-
-					printf("%d\n", to_sort->n);
-
-					to_sort = ptr->next;
-					ptr = to_sort;
-
-					if (to_sort == NULL)
-					printf("here");
-
-					ptr = to_sort;
-					flag2 = 1;
-					flag = 0;
-					break;
+					ptr2 = ptr2->prev;
 				}
-				flag = 1;
 			}
-			if (flag)
+			if (sort_occur)
 			{
-				ptr->next = to_sort->next;
-				to_sort->next->prev = ptr;
-				to_sort->prev = ptr->prev;
-				ptr->prev = to_sort;
-				to_sort->next = ptr;
-				ptr->prev = to_sort;
+				if (ptr2->prev == NULL)
+				{
+					sort_front(list, to_sort, ptr2);
+				}
+				else
+				{
+					sort_any_where(to_sort, ptr2);
+				}
+
 			}
-			if (!flag2)
+			if (sort_occur)
 			{
-				to_sort = to_sort->next;
-				ptr = to_sort;	
-				flag = 1;
+				if (ptr != NULL)
+				{
+					ptr = ptr->prev;
+				}
+				else break;
 			}
-			if (flag2)
-			{
-				flag = 1;
-			printf("why\n");}
+			sort_occur = false;
 		}
 }

@@ -10,6 +10,7 @@
  *
  * Return: Pointer to the first element of the created list. NULL on failure
  */
+
 listint_t *create_listint(const int *array, size_t size)
 {
     listint_t *list;
@@ -41,7 +42,8 @@ listint_t *create_listint(const int *array, size_t size)
 int main(void)
 {
     listint_t *list;
-    int array[] = {19, 48, 99, 71, 13, 52, 96, 73, 86, 7};
+    /*int array[] = {19, 48, 99, 71, 13, 52, 96, 73, 86, 7};*/
+    int array[] = {2, 1, 3};
     size_t n = sizeof(array) / sizeof(array[0]);
 
     list = create_listint(array, n);

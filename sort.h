@@ -9,7 +9,7 @@
  * @next: Pointer to the next element of the list
  */
 #include <stddef.h>
-
+#include <stdbool.h>
 typedef struct listint_s
 {
     const int n;
