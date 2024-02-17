@@ -1,8 +1,8 @@
 #include "sort.h"
 #include <stdio.h>
 
-/***
- * sort_fornt - sorting a node
+/**
+ * sort_front - sorting a node
  *
  * @head: head of list
  * @to_sort: node to be sorted
