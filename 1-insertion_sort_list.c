@@ -9,6 +9,7 @@ void sort_front(listint_t **head __attribute__((unused)), listint_t *to_sort, li
 		to_sort->next = ptr2;
 		ptr2->prev = to_sort;
 		to_sort->prev = NULL;
+
 		*(head) = to_sort;
 		print_list(*head);
 }
@@ -18,8 +19,11 @@ void sort_any_where(listint_t *to_sort, listint_t *ptr2)
 		/*ptr2->next = to_sort->next;*/
 		if (to_sort->next != NULL)
 		{
-		to_sort->next->prev = ptr2;
-		ptr2->next = to_sort->next;
+		/*to_sort->next->prev = ptr2;*/
+
+		to_sort->next->prev = to_sort->prev;
+		to_sort->prev->next = to_sort->next;
+		/*ptr2->next = to_sort->next;*/
 		}
 		if (to_sort->next == NULL)
 		to_sort->prev->next = NULL;
