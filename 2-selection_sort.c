@@ -13,7 +13,7 @@
 void selection_sort(int *array, size_t size)
 {
 		int t;
-		long unsigned int i, j, low_idx;
+		unsigned long int i, j, low_idx;
 
 		for (i = 0; i < size; i++)
 		{
