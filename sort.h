@@ -21,13 +21,8 @@ typedef struct listint_s
 
 void print_list(const listint_t *list);
 void print_array(const int *array, size_t size);
-
 void bubble_sort(int *array, size_t size);
-
 void insertion_sort_list(listint_t **list);
 void sort_any_where(listint_t *to_sort, listint_t *ptr2);
-void sort_front(listint_t **head __attribute__((unused)),
-		listint_t *to_sort, listint_t *ptr2);
-
 void selection_sort(int *array, size_t size);
 #endif
