@@ -1,103 +1,54 @@
 #include "sort.h"
-#include <stdio.h>
 
 /**
- * sort_front - sorting a node
+ * swap - swaps 2 nodes in a doubly-linked list
+ * @a: address of first node
+ * @b: address of second node
  *
- * @head: head of list
- * @to_sort: node to be sorted
- * @ptr2: flag node to change positions
- *
- * Description: if the node should be the first element
- *
- * Return: nothing
+ * Return: void
  */
-void sort_front(listint_t **head __attribute__((unused)),
-		listint_t *to_sort, listint_t *ptr2)
+void swap(listint_t *a, listint_t *b)
 {
-		to_sort->prev->next = to_sort->next;
-		if (to_sort->next != NULL)
-			to_sort->next->prev = to_sort->prev;
-		to_sort->next = ptr2;
-		ptr2->prev = to_sort;
-		to_sort->prev = NULL;
-		*(head) = to_sort;
-		print_list(*head);
+	if (a->prev)
+		a->prev->next = b;
+	if (b->next)
+		b->next->prev = a;
+	a->next = b->next;
+	b->prev = a->prev;
+	a->prev = b;
+	b->next = a;
+
 }
 
 /**
- * sort_any_where - sorting a node
+ * insertion_sort_list - insertion sorts a doubly-linked list
+ * @list: address of pointer to head node
  *
- * @to_sort: node to be sorted
- * @ptr2: flag pointer
- *
- * Description: if the node should be between other nodes
- *
- * Return: nothing
- */
-void sort_any_where(listint_t *to_sort, listint_t *ptr2)
-{
-		ptr2->prev->next = to_sort;
-		if (to_sort->next != NULL)
-		{
-			to_sort->next->prev = to_sort->prev;
-			to_sort->prev->next = to_sort->next;
-		}
-		if (to_sort->next == NULL)
-			to_sort->prev->next = NULL;
-		to_sort->prev = ptr2->prev;
-		to_sort->next = ptr2;
-		ptr2->prev = to_sort;
-}
-
-/**
- * insertion_sort_list - sorting a list
- *
- * @list: list to be sorted
- *
- * Description: entry point of sorting
- *
- * Return: nothing
+ * Return: void
  */
 void insertion_sort_list(listint_t **list)
 {
-		listint_t *ptr, *ptr2, *to_sort;
-		bool sort_occur = false;
+	listint_t *i, *j;
 
-		if (!(*list) || (*list)->next == NULL)
-			return;
-		ptr = (*list);
-		while (ptr->next != NULL)
+	if (!list || !*list || !(*list)->next)
+		return;
+	i = (*list)->next;
+	while (i)
+	{
+		j = i;
+		i = i->next;
+		while (j && j->prev)
 		{
-
-			if (ptr->next->n >= ptr->n)
-				ptr = ptr->next;
+			if (j->prev->n > j->n)
+			{
+				swap(j->prev, j);
+				if (!j->prev)
+					*list = j;
+				print_list((const listint_t *)*list);
+			}
 			else
-			{
-				ptr2 = to_sort = ptr->next;
-				sort_occur = true;
-				ptr = ptr->next->next;
-				while (ptr2->prev != NULL &&
-						ptr2->prev->n > to_sort->n)
-					ptr2 = ptr2->prev;
-			}
-			if (sort_occur)
-			{
-				if (ptr2->prev == NULL)
-					sort_front(list, to_sort, ptr2);
-				else
-				{
-					sort_any_where(to_sort, ptr2);
-					print_list(*list);
-				}
-			}
-			if (sort_occur)
-			{
-				if (ptr != NULL)
-					ptr = ptr->prev;
-				else
-					break;
-			}
-			sort_occur = false;
+				j = j->prev;
 		}
+
+	}
 }
